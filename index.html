@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IronLog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Workout Log</p>
+          <h1>Track every lift, see every jump.</h1>
+          <p class="hero-copy">
+            Log your sessions, remember your previous weight, and build momentum
+            exercise by exercise.
+          </p>
+        </div>
+        <div class="hero-card">
+          <p class="hero-card-label">Your lifting totals</p>
+          <div class="hero-stats">
+            <div>
+              <span id="stat-sessions">0</span>
+              <p>Total sessions</p>
+            </div>
+            <div>
+              <span id="stat-volume">0 kg</span>
+              <p>Total volume</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="grid">
+        <section class="panel panel-form">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label">New Session</p>
+              <h2 id="form-title">Log a workout</h2>
+            </div>
+            <div class="button-row">
+              <button id="cancel-edit-button" class="ghost-button hidden" type="button">
+                Cancel edit
+              </button>
+              <button id="reset-button" class="ghost-button" type="button">
+                Reset
+              </button>
+            </div>
+          </div>
+
+          <form id="workout-form">
+            <div class="template-banner">
+              <div>
+                <p class="section-label">Templates</p>
+                <h3>Start faster</h3>
+              </div>
+              <div class="template-controls">
+                <label>
+                  Workout template
+                  <select id="template-select" name="templateSelect">
+                    <option value="">Choose a template</option>
+                  </select>
+                </label>
+                <button id="apply-template-button" class="secondary-button" type="button">
+                  Use template
+                </button>
+              </div>
+            </div>
+
+            <div class="field-grid">
+              <label>
+                Workout name
+                <input
+                  id="workout-name"
+                  name="workoutName"
+                  type="text"
+                  placeholder="Push Day"
+                  required
+                />
+              </label>
+
+              <label>
+                Session date
+                <input id="session-date" name="sessionDate" type="date" required />
+              </label>
+            </div>
+
+            <label>
+              Notes
+              <textarea
+                id="session-notes"
+                name="sessionNotes"
+                rows="3"
+                placeholder="Felt strong on bench, reduce rest next time"
+              ></textarea>
+            </label>
+
+            <div class="subheading">
+              <div>
+                <p class="section-label">Exercise</p>
+                <h3>Add a lift</h3>
+              </div>
+              <p id="previous-hint" class="hint">
+                Pick an exercise to see your most recent weight.
+              </p>
+            </div>
+
+            <div class="exercise-grid single-column">
+              <label>
+                Exercise
+                <input
+                  id="exercise-name"
+                  name="exerciseName"
+                  list="exercise-suggestions"
+                  type="text"
+                  placeholder="Barbell Bench Press"
+                />
+                <datalist id="exercise-suggestions"></datalist>
+              </label>
+            </div>
+
+            <div class="set-builder">
+              <div class="subheading compact">
+                <div>
+                  <p class="section-label">Sets</p>
+                  <h3>Build the exercise</h3>
+                </div>
+                <p id="set-hint" class="hint">Add one or more sets for this exercise.</p>
+              </div>
+
+              <div class="set-grid">
+                <label>
+                  Weight (kg)
+                  <input
+                    id="exercise-weight"
+                    name="exerciseWeight"
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    placeholder="60"
+                  />
+                </label>
+
+                <label>
+                  Reps
+                  <input
+                    id="exercise-reps"
+                    name="exerciseReps"
+                    type="number"
+                    min="1"
+                    step="1"
+                    placeholder="8"
+                  />
+                </label>
+
+                <button id="add-set-button" class="secondary-button" type="button">
+                  Add set
+                </button>
+              </div>
+
+              <ul id="set-list" class="exercise-list empty-state">
+                <li>No sets added yet.</li>
+              </ul>
+            </div>
+
+            <button id="add-exercise-button" class="secondary-button" type="button">
+              Add exercise with sets
+            </button>
+
+            <div class="exercise-list-wrap">
+              <div class="subheading compact">
+                <div>
+                  <p class="section-label">Current Session</p>
+                  <h3>Exercises</h3>
+                </div>
+                <p id="session-volume" class="hint">Volume: 0 kg</p>
+              </div>
+
+              <ul id="exercise-list" class="exercise-list empty-state">
+                <li>No exercises added yet.</li>
+              </ul>
+            </div>
+
+            <button class="primary-button" type="submit">Save session</button>
+          </form>
+        </section>
+
+        <section class="panel panel-summary">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label">Progress</p>
+              <h2>Your dashboard</h2>
+            </div>
+          </div>
+
+          <section class="calendar-panel">
+            <div class="panel-heading compact">
+              <div>
+                <p class="section-label">Calendar</p>
+                <h3>Day-wise workouts</h3>
+              </div>
+              <div class="button-row">
+                <button id="calendar-prev" class="ghost-button" type="button">Prev</button>
+                <button id="calendar-next" class="ghost-button" type="button">Next</button>
+              </div>
+            </div>
+
+            <div class="calendar-header">
+              <h4 id="calendar-month-label"></h4>
+              <p id="calendar-selected-label" class="hint"></p>
+            </div>
+
+            <div class="calendar-weekdays" aria-hidden="true">
+              <span>Sun</span>
+              <span>Mon</span>
+              <span>Tue</span>
+              <span>Wed</span>
+              <span>Thu</span>
+              <span>Fri</span>
+              <span>Sat</span>
+            </div>
+
+            <div id="calendar-grid" class="calendar-grid"></div>
+
+            <div class="subheading compact">
+              <div>
+                <p class="section-label">Selected Day</p>
+                <h3>Workouts on this date</h3>
+              </div>
+            </div>
+            <div id="selected-day-sessions" class="history-list"></div>
+          </section>
+
+          <div id="overview-cards" class="overview-grid"></div>
+          <div id="top-exercises" class="summary-stack"></div>
+
+          <div class="subheading compact">
+            <div>
+              <p class="section-label">History</p>
+              <h3>Recent sessions</h3>
+            </div>
+          </div>
+          <div id="session-history" class="history-list"></div>
+        </section>
+      </main>
+    </div>
+
+    <template id="exercise-item-template">
+      <li class="exercise-item">
+        <div>
+          <h4 class="exercise-title"></h4>
+          <p class="exercise-meta"></p>
+        </div>
+        <button class="icon-button" type="button">Remove</button>
+      </li>
+    </template>
+
+    <template id="set-item-template">
+      <li class="exercise-item">
+        <div>
+          <h4 class="exercise-title"></h4>
+          <p class="exercise-meta"></p>
+        </div>
+        <button class="icon-button" type="button">Remove</button>
+      </li>
+    </template>
+
+    <template id="history-card-template">
+      <article class="history-card">
+        <div class="history-card-header">
+          <div>
+            <p class="history-date"></p>
+            <h4 class="history-name"></h4>
+          </div>
+          <div class="history-actions">
+            <p class="history-volume"></p>
+            <div class="button-row">
+              <button class="icon-button history-edit-button" type="button">Edit</button>
+              <button class="icon-button history-delete-button" type="button">Delete</button>
+            </div>
+          </div>
+        </div>
+        <p class="history-notes"></p>
+        <ul class="history-exercises"></ul>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
